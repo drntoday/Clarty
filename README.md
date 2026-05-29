@@ -37,6 +37,8 @@ cp .env.example .env.local
 | `DEEPSEEK_API_KEY` | Your DeepSeek authorization bearer token |
 | `GEMINI_API_KEY` | Google Generative AI key managed under Settings |
 | `CLAUDE_API_KEY` | Anthropic model key |
+| `SHOPIFY_STORE_URL` | (https://your-store.myshopify.com) |
+| `SHOPIFY_ACCESS_TOKEN` | shpat_your_access_token |
 
 ---
 
