@@ -9,9 +9,8 @@ import {
   Compass,
   Cpu,
   Settings,
-  Menu,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
 } from "lucide-react";
 
 export type PanelId = "chat" | "health" | "competitor" | "compliance" | "explain" | "router" | "settings";
@@ -27,7 +26,7 @@ export default function Sidebar({
   activePanel,
   onChangePanel,
   isCollapsed,
-  setIsCollapsed
+  setIsCollapsed,
 }: SidebarProps) {
 
   const navItems = [
@@ -43,37 +42,62 @@ export default function Sidebar({
   return (
     <div
       id="sidebar-container"
-      className={`bg-white dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-850 flex flex-col transition-all duration-300 h-full ${isCollapsed ? "w-16" : "w-64"
-        }`}
+      className={`flex flex-col transition-all duration-200 h-full border-r ${
+        isCollapsed ? "w-16" : "w-64"
+      }`}
+      style={{
+        backgroundColor: "var(--bg-primary)",
+        borderColor: "var(--border-color)",
+      }}
     >
       {/* Sidebar Header Brand Area */}
-      <div className="p-4 border-b border-zinc-200 dark:border-zinc-850 flex items-center justify-between shrink-0 h-[72px]">
+      <div 
+        className="flex items-center justify-between shrink-0 h-14 px-3 border-b"
+        style={{ borderColor: "var(--border-color)" }}
+      >
         {!isCollapsed ? (
-          <div className="flex items-center space-x-2">
-            <div className="h-8 w-8 bg-indigo-650 rounded-lg flex items-center justify-center text-zinc-900 dark:text-white border border-indigo-400">
-              <Sparkles className="h-5 w-5" />
+          <div className="flex items-center gap-2.5 overflow-hidden">
+            <div 
+              className="h-8 w-8 rounded-lg flex items-center justify-center shrink-0"
+              style={{ backgroundColor: "var(--primary)", color: "#fff" }}
+            >
+              <Sparkles className="h-4 w-4" />
             </div>
-            <div>
-              <h1 className="text-xs font-bold font-mono tracking-wider text-zinc-900 dark:text-white uppercase">ClarityCommerce</h1>
-              <span className="text-[9px] text-zinc-500 dark:text-zinc-400 font-sans tracking-tight block">nitishkumar.pro</span>
+            <div className="min-w-0">
+              <h1 
+                className="text-xs font-bold font-heading tracking-wide uppercase truncate"
+                style={{ color: "var(--text-primary)" }}
+              >
+                ClarityCommerce
+              </h1>
+              <span 
+                className="text-[9px] font-sans truncate block"
+                style={{ color: "var(--text-secondary)" }}
+              >
+                built by nitishkumar.pro
+              </span>
             </div>
           </div>
         ) : (
-          <div className="mx-auto h-8 w-8 bg-indigo-650 rounded-lg flex items-center justify-center text-zinc-900 dark:text-white border border-indigo-400">
-            <Sparkles className="h-4.5 w-4.5" />
+          <div 
+            className="mx-auto h-8 w-8 rounded-lg flex items-center justify-center"
+            style={{ backgroundColor: "var(--primary)", color: "#fff" }}
+          >
+            <Sparkles className="h-4 w-4" />
           </div>
         )}
 
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="p-1 hover:bg-zinc-100 dark:bg-zinc-800 rounded-md text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:text-white transition-colors cursor-pointer hidden md:block"
+          className="p-1.5 rounded-lg shrink-0 hidden md:block transition-colors hover:bg-[var(--bg-surface)]"
+          style={{ color: "var(--text-secondary)" }}
         >
           {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
         </button>
       </div>
 
       {/* Navigation list */}
-      <nav id="sidebar-nav" className="flex-1 py-4 px-2 space-y-1 overflow-y-auto">
+      <nav className="flex-1 py-3 px-2 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
           const IconComponent = item.icon;
           const isActive = activePanel === item.id;
@@ -82,32 +106,44 @@ export default function Sidebar({
               id={`nav-btn-${item.id}`}
               key={item.id}
               onClick={() => onChangePanel(item.id)}
-              className={`w-full flex items-center p-2.5 rounded-lg text-xs font-medium transition-all group cursor-pointer text-left ${isActive
-                ? "bg-indigo-650/15 border border-indigo-550/30 text-indigo-450"
-                : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-800 dark:text-zinc-200 hover:bg-white dark:bg-zinc-900 border border-transparent"
-                }`}
+              className={`w-full flex items-center px-2.5 py-2.5 rounded-button text-xs font-medium transition-all duration-200 group cursor-pointer text-left ${
+                isActive ? "chip-active" : "hover:bg-[var(--bg-surface)]"
+              }`}
               title={item.name}
             >
-              <IconComponent className={`h-4.5 w-4.5 shrink-0 ${isActive ? "text-indigo-400" : "text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-800 dark:text-zinc-200"
-                } ${isCollapsed ? "mx-auto" : "mr-3"}`} />
+              <IconComponent 
+                className={`h-5 w-5 shrink-0 ${
+                  isCollapsed ? "mx-auto" : "mr-3"
+                } ${isActive ? "text-[var(--primary)]" : "text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]"}`} 
+              />
 
               {!isCollapsed && (
-                <span className="truncate leading-normal">{item.name}</span>
+                <span 
+                  className="truncate leading-normal"
+                  style={{ color: isActive ? "var(--primary)" : "var(--text-secondary)" }}
+                >
+                  {item.name}
+                </span>
               )}
             </button>
           );
         })}
       </nav>
 
-      {/* Sidebar Footer Info */}
-      <div className="p-4 border-t border-zinc-200 dark:border-zinc-900 shrink-0 text-center">
+      {/* Sidebar Footer */}
+      <div 
+        className="px-3 py-3 border-t text-center shrink-0"
+        style={{ borderColor: "var(--border-color)" }}
+      >
         {!isCollapsed ? (
-          <div className="text-[9px] text-zinc-500 dark:text-zinc-400 font-mono tracking-tight leading-normal">
+          <div className="text-[9px] font-mono leading-tight" style={{ color: "var(--text-secondary)" }}>
             ClarityCommerce v1.2
-            <div className="mt-0.5 text-zinc-650">Engine: Proprietary</div>
+            <div className="mt-0.5" style={{ color: "var(--text-secondary)", opacity: 0.7 }}>
+              Engine: Proprietary
+            </div>
           </div>
         ) : (
-          <span className="text-[9px] text-zinc-700 font-mono">v1.2</span>
+          <span className="text-[9px] font-mono" style={{ color: "var(--text-secondary)" }}>v1.2</span>
         )}
       </div>
     </div>
